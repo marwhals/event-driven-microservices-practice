@@ -1,6 +1,5 @@
 package microservices.practice.runner.impl;
 
-import microservices.practice.config.TwitterToKafkaServiceConfigData;
 import microservices.practice.runner.StreamRunner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

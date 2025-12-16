@@ -1,7 +1,7 @@
 package microservices.practice.runner.impl;
 
 import jakarta.annotation.PreDestroy;
-import microservices.practice.config.TwitterToKafkaServiceConfigData;
+import microservices.practice.demo.config.TwitterToKafkaServiceConfigData;
 import microservices.practice.listener.TwitterKafkaStatusListener;
 import microservices.practice.runner.StreamRunner;
 import org.slf4j.Logger;

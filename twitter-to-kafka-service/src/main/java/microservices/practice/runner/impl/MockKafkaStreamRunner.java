@@ -1,6 +1,6 @@
 package microservices.practice.runner.impl;
 
-import microservices.practice.config.TwitterToKafkaServiceConfigData;
+import microservices.practice.demo.config.TwitterToKafkaServiceConfigData;
 import microservices.practice.exception.TwitterToKafkaServiceException;
 import microservices.practice.listener.TwitterKafkaStatusListener;
 import microservices.practice.runner.StreamRunner;
