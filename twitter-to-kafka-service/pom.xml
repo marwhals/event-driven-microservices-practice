@@ -53,8 +53,22 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <image>
+                        <name>${project.groupId}/twitter.to.kafka.service:${project.version}</name>
+                    </image>
+                </configuration>
+                <executions>
+                    <execution>
+<!--                    Need kafka running before running this command or run mvn install -DSkipTests. See Cloud Native Buildpacks-->
+<!--                    Avoid creating fat jars. Faster build times by caching code that is unlikely to change (libraries) -->
+                        <phase>install</phase>
+                        <goals>
+                            <goal>build-image</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
-
 </project>
