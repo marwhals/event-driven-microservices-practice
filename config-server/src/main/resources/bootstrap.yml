@@ -5,6 +5,8 @@ spring:
     config:
       server:
         git:
-          uri: file://event-drive-microservices-practice
+          uri: https://github.com/marwhals/spring-cloud-config-server-repository.git
+          username: marwhals
+          password: TOKEN_HERE
           clone-on-start: true
     fail-fast: true
