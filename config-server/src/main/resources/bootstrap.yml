@@ -10,3 +10,7 @@ spring:
           password: TOKEN_HERE
           clone-on-start: true
     fail-fast: true
+  security:
+    user:
+      name: spring_cloud_user
+      password: springCLoud_Pwd!
