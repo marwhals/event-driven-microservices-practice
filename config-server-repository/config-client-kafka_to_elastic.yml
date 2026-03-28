@@ -1,0 +1,37 @@
+server:
+  port: 8182
+
+kafka-config:
+  bootstrap-servers: localhost:19092, localhost:29092, localhost:39092
+  schema-registry-url-key: schema.registry.url
+  schema-registry-url: http://localhost:8081
+  topic-name: twitter-topic
+  topic-names-to-create:
+    - twitter-topic
+
+kafka-consumer-config:
+  key-deserializer: org.apache.kafka.common.serialization.LongDeserializer
+  value-deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
+  consumer-group-id: twitter-topic-consumer # set a unique id for a consumer to allow using offsets
+  auto-offset-reset: earliest # begin reading from the beginning of a partition
+  specific-avro-reader-key: specific.avro.reader
+  specific-avro-reader: true
+  batch-listener: true # consume data batches
+  auto-startup: false
+  concurrency-level: 3 # set the number of threads to start consuming. 1 topic has three partitions
+  session-timeout-ms: 10000
+  heartbeat-interval-ms: 3000
+  max-poll-interval-ms: 300000
+  max-poll-records: 500
+  max-partition-fetch-bytes-default: 1048576
+  max-partition-fetch-bytes-boost-factor: 1
+  poll-timeout-ms: 150 # Determines how long to wait until at least one record is available. Recommended value is around 100ms
+  # ^^^ setting this value too high will cause kafka to block too much and setting it too low will cause bad CPU stall where the CPU doesn't make progress although it is running
+
+
+retry-config:
+  initial-interval-ms: 1000
+  max-interval-ms: 10000
+  multiplier: 2.0
+  maxAttempts: 3
+  sleep-time-ms: 2000
