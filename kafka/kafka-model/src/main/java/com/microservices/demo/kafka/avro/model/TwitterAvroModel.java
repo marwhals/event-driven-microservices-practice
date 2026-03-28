@@ -244,10 +244,6 @@ public class TwitterAvroModel extends org.apache.avro.specific.SpecificRecordBas
     private java.lang.String text;
     private java.lang.Long createdAt;
 
-    /** Creates a new Builder */
-    private Builder() {
-      super(SCHEMA$, MODEL$);
-    }
 
     /**
      * Creates a Builder by copying an existing Builder.
