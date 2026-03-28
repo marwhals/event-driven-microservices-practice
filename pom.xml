@@ -25,6 +25,7 @@
         <module>common-config</module>
         <module>config-server</module>
         <module>kafka/kafka-consumer</module>
+        <module>kafka-to-elastic-service</module>
     </modules>
 
     <properties>
@@ -54,11 +55,24 @@
 
     <dependencyManagement>
         <dependencies>
+            <!-- Spring Cloud BOM to resolve all Spring Cloud versions -->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>2023.0.0</version> <!-- compatible with Spring Boot 3.2.x -->
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
 <!-- LOCAL -->
             <dependency>
                 <groupId>microservices.practice</groupId>
                 <artifactId>kafka-model</artifactId>
                 <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>microservices.practice</groupId>
+                <artifactId>kafka-consumer</artifactId>
+                <version>1.0-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>microservices.practice</groupId>
