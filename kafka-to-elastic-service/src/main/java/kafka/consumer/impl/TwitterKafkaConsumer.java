@@ -6,6 +6,8 @@ import microservices.practice.demo.config.KafkaConfigData;
 import microservices.practice.kafka.admin.client.KafkaAdminClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.context.event.ApplicationStartedEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.config.KafkaListenerEndpointRegistry;
 import org.springframework.kafka.support.KafkaHeaders;
@@ -25,6 +27,13 @@ public class TwitterKafkaConsumer implements KafkaConsumer<Long, TwitterAvroMode
     private final KafkaAdminClient kafkaAdminClient;
 
     private final KafkaConfigData kafkaConfigData;
+
+    @EventListener // Marks a method as a listener for application events
+    public void onAppStarted(ApplicationStartedEvent event) {
+        kafkaAdminClient.checkTopicsCreated();
+        LOG.info("Topics with name {} is ready for operations!", kafkaConfigData.getTopicNamesToCreate().toArray());
+        kafkaListenerEndpointRegistry.getListenerContainer("twitterTopicListener").start();
+    }
 
     public TwitterKafkaConsumer(KafkaListenerEndpointRegistry listenerEndpointRegistry,
                                 KafkaAdminClient adminClient,
