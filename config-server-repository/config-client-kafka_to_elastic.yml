@@ -28,7 +28,6 @@ kafka-consumer-config:
   poll-timeout-ms: 150 # Determines how long to wait until at least one record is available. Recommended value is around 100ms
   # ^^^ setting this value too high will cause kafka to block too much and setting it too low will cause bad CPU stall where the CPU doesn't make progress although it is running
 
-
 retry-config:
   initial-interval-ms: 1000
   max-interval-ms: 10000
@@ -41,4 +40,4 @@ elastic-config:
   connection-url: http://localhost:9200
   connect-timeout-ms: 5000
   socket-timeout-ms: 30000
-  is-repository: true
+#  is-repository: true

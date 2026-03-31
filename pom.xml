@@ -64,6 +64,16 @@
             </dependency>
             <dependency>
                 <groupId>microservices.practice</groupId>
+                <artifactId>elastic-config</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>microservices.practice</groupId>
+                <artifactId>elastic-index-client</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>microservices.practice</groupId>
                 <artifactId>kafka-consumer</artifactId>
                 <version>${project.version}</version>
             </dependency>
