@@ -5,6 +5,11 @@ import microservices.practice.elastic.query.service.model.ElasticQueryServiceReq
 import microservices.practice.elastic.query.service.model.ElasticQueryServiceResponseModel;
 import microservices.practice.elastic.query.service.model.ElasticQueryServiceResponseModelV2;
 import microservices.practice.elastic.query.service.model.ElasticQueryServiceResponseModelV3;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +32,16 @@ public class ElasticDocumentController {
         this.elasticQueryService = queryService;
     }
 
+    @Operation(summary = "Get elastic document by id.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successful response.", content = {
+                    @Content(mediaType = "application/vnd.api.v1+json",
+                            schema = @Schema(implementation = ElasticQueryServiceResponseModel.class)
+                    )
+            }),
+            @ApiResponse(responseCode = "400", description = "Not found."),
+            @ApiResponse(responseCode = "500", description = "Internal server error.")
+    })
     @GetMapping(value = "/{id}", produces = "application/vnd.api.v2+json")
     public @ResponseBody
     ResponseEntity<ElasticQueryServiceResponseModelV3>
@@ -38,8 +53,19 @@ public class ElasticDocumentController {
     }
 
 
-//API changes done on the method level for simplicity
-    @GetMapping("/v1")
+//API changes done on the method level for simplicity --- removed
+
+    @Operation(summary = "Get all elastic documents.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successful response.", content = {
+                    @Content(mediaType = "application/vnd.api.v1+json",
+                            schema = @Schema(implementation = ElasticQueryServiceResponseModel.class)
+                    )
+            }),
+            @ApiResponse(responseCode = "400", description = "Not found."),
+            @ApiResponse(responseCode = "500", description = "Internal server error.")
+    })
+    @GetMapping("")
     public @ResponseBody // @ResponseBody --- used to serialize java response object to json
     ResponseEntity<List<ElasticQueryServiceResponseModel>> getAllDocuments() {
         List<ElasticQueryServiceResponseModel> response = elasticQueryService.getAllDocuments();
@@ -66,7 +92,17 @@ public class ElasticDocumentController {
         return ResponseEntity.ok(responseModelV2);
     }
 
-    @PostMapping("/v1/get-document-by-text")
+    @Operation(summary = "Get elastic document by text.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successful response.", content = {
+                    @Content(mediaType = "application/vnd.api.v1+json",
+                            schema = @Schema(implementation = ElasticQueryServiceResponseModel.class)
+                    )
+            }),
+            @ApiResponse(responseCode = "400", description = "Not found."),
+            @ApiResponse(responseCode = "500", description = "Internal server error.")
+    })
+    @PostMapping("/get-document-by-text")
     public @ResponseBody
     ResponseEntity<List<ElasticQueryServiceResponseModel>> // Process validation for all validation annotations on the object
     getDocumentByText(@RequestBody @Valid ElasticQueryServiceRequestModel elasticQueryServiceRequestModel) { //@ReqeustBody - used to deserialize json into a Java object

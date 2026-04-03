@@ -1,24 +1,31 @@
 package microservices.practice.elastic.query.service.config;
 
 import microservices.practice.demo.config.UserConfigData;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import javax.validation.Valid;
+
 @Configuration
 @EnableWebSecurity
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+public class WebSecurityConfigAdapter extends WebSecurityConfigurerAdapter {
 
     private final UserConfigData userConfigData;
 
-    public WebSecurityConfig(UserConfigData userData, UserConfigData userConfigData) {
+    public WebSecurityConfigAdapter(UserConfigData userData, UserConfigData userConfigData) {
         this.userConfigData = userConfigData;
     }
+
+    @Value("${security.paths-to-ignore}")
+    private String[] pathsToIgnore;
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
@@ -29,6 +36,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/**").hasRole("USER")
                 .and()
                 .csrf().disable(); //CSRF - An attack that uses already authenticated user's session to do unwanted actions, triggering it from the browser
+    }
+
+    @Override
+    public void configure(WebSecurity webSecurity) throws Exception {
+        webSecurity
+                .ignoring()
+                .antMatchers(pathsToIgnore);
     }
 
     @Override
