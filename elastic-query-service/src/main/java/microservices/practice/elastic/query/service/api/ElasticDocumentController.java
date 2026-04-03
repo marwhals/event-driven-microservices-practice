@@ -1,5 +1,6 @@
 package microservices.practice.elastic.query.service.api;
 
+import microservices.practice.elastic.query.service.business.ElasticQueryService;
 import microservices.practice.elastic.query.service.model.ElasticQueryServiceRequestModel;
 import microservices.practice.elastic.query.service.model.ElasticQueryServiceResponseModel;
 import org.slf4j.Logger;
@@ -15,22 +16,26 @@ import java.util.List;
 public class ElasticDocumentController {
     private static final Logger LOG = LoggerFactory.getLogger(ElasticDocumentController.class);
 
+    private final ElasticQueryService elasticQueryService;
+
+    public ElasticDocumentController(ElasticQueryService queryService) {
+        this.elasticQueryService = queryService;
+    }
+
+
     @GetMapping("/")
     public @ResponseBody // @ResponseBody --- used to serialize java response object to json
     ResponseEntity<List<ElasticQueryServiceResponseModel>> getAllDocuments() {
-        List<ElasticQueryServiceResponseModel> response = new ArrayList<>();
+        List<ElasticQueryServiceResponseModel> response = elasticQueryService.getAllDocuments();
         LOG.info("Elasticsearch returned {} of documents", response.size());
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/{id}")
-    public @ResponseBody ResponseEntity<ElasticQueryServiceResponseModel>
+    public @ResponseBody
+    ResponseEntity<ElasticQueryServiceResponseModel>
     getDocumentById(@PathVariable String id) { //@PathVariable - used to path a pass variable into a method
-        ElasticQueryServiceResponseModel elasticQueryServiceResponseModel =
-                ElasticQueryServiceResponseModel
-                        .builder()
-                        .id(id)
-                        .build();
+        ElasticQueryServiceResponseModel elasticQueryServiceResponseModel = elasticQueryService.getDocumentById(id);
         LOG.debug("Elasticsearch returned document with id {}", id);
         return ResponseEntity.ok(elasticQueryServiceResponseModel);
     }
@@ -39,12 +44,8 @@ public class ElasticDocumentController {
     public @ResponseBody
     ResponseEntity<List<ElasticQueryServiceResponseModel>>
     getDocumentByText(@RequestBody ElasticQueryServiceRequestModel elasticQueryServiceRequestModel) { //@ReqeustBody - used to deserialize json into a Java object
-        List<ElasticQueryServiceResponseModel> response = new ArrayList<>();
-        ElasticQueryServiceResponseModel elasticQueryServiceResponseModel =
-                ElasticQueryServiceResponseModel.builder()
-                        .text(elasticQueryServiceRequestModel.getText())
-                        .build();
-        response.add(elasticQueryServiceResponseModel);
+        List<ElasticQueryServiceResponseModel> response =
+                elasticQueryService.getDocumentByText(elasticQueryServiceRequestModel.getText());
         LOG.info("Elasticsearch returned {} of documents", response.size());
         return ResponseEntity.ok(response);
     }
