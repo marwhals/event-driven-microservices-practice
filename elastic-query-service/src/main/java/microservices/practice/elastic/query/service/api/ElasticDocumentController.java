@@ -8,6 +8,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,7 +36,7 @@ public class ElasticDocumentController {
     @GetMapping("/{id}")
     public @ResponseBody
     ResponseEntity<ElasticQueryServiceResponseModel>
-    getDocumentById(@PathVariable String id) { //@PathVariable - used to path a pass variable into a method
+    getDocumentById(@PathVariable @NotEmpty String id) { //@PathVariable - used to path a pass variable into a method
         ElasticQueryServiceResponseModel elasticQueryServiceResponseModel = elasticQueryService.getDocumentById(id);
         LOG.debug("Elasticsearch returned document with id {}", id);
         return ResponseEntity.ok(elasticQueryServiceResponseModel);
@@ -42,8 +44,8 @@ public class ElasticDocumentController {
 
     @PostMapping("/get-document-by-text")
     public @ResponseBody
-    ResponseEntity<List<ElasticQueryServiceResponseModel>>
-    getDocumentByText(@RequestBody ElasticQueryServiceRequestModel elasticQueryServiceRequestModel) { //@ReqeustBody - used to deserialize json into a Java object
+    ResponseEntity<List<ElasticQueryServiceResponseModel>> // Process validation for all validation annotations on the object
+    getDocumentByText(@RequestBody @Valid ElasticQueryServiceRequestModel elasticQueryServiceRequestModel) { //@ReqeustBody - used to deserialize json into a Java object
         List<ElasticQueryServiceResponseModel> response =
                 elasticQueryService.getDocumentByText(elasticQueryServiceRequestModel.getText());
         LOG.info("Elasticsearch returned {} of documents", response.size());
