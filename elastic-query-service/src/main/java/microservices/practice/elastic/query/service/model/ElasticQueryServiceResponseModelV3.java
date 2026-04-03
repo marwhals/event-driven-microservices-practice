@@ -11,10 +11,10 @@ import java.time.LocalDateTime;
 @Data
 @Builder
 @NoArgsConstructor
-@AllArgsConstructor
-public class ElasticQueryServiceResponseModel extends RepresentationModel<ElasticQueryServiceResponseModel> {
-    private String id;
+@AllArgsConstructor //For example breaking change
+public class ElasticQueryServiceResponseModelV3 extends RepresentationModel<ElasticQueryServiceResponseModelV3> {
+    private Long id;
     private Long userId;
     private String text;
-    private LocalDateTime createdAt;
+    private String text2;
 }

@@ -4,6 +4,7 @@ import microservices.practice.elastic.query.service.business.ElasticQueryService
 import microservices.practice.elastic.query.service.model.ElasticQueryServiceRequestModel;
 import microservices.practice.elastic.query.service.model.ElasticQueryServiceResponseModel;
 import microservices.practice.elastic.query.service.model.ElasticQueryServiceResponseModelV2;
+import microservices.practice.elastic.query.service.model.ElasticQueryServiceResponseModelV3;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController // @RestController = @Controller + @ResponseBody
-@RequestMapping(value = "/documents") // Can be used to set mapping path, http method, params, header etc
+@RequestMapping(value = "/documents", produces = "application/vnd.api.v1+json") // Can be used to set mapping path, http method, params, header etc
+//@RequestMapping(value = "/documents") // Can be used to set mapping path, http method, params, header etc
 public class ElasticDocumentController {
     private static final Logger LOG = LoggerFactory.getLogger(ElasticDocumentController.class);
 
@@ -25,7 +27,18 @@ public class ElasticDocumentController {
         this.elasticQueryService = queryService;
     }
 
-//Done on the method level for simplicity
+    @GetMapping(value = "/{id}", produces = "application/vnd.api.v2+json")
+    public @ResponseBody
+    ResponseEntity<ElasticQueryServiceResponseModelV3>
+    getDocumentByIdv3(@PathVariable @NotEmpty String id) {
+        ElasticQueryServiceResponseModel elasticQueryServiceResponseModel = elasticQueryService.getDocumentById(id);
+        ElasticQueryServiceResponseModelV3 responseModelV3 = getV3Model(elasticQueryServiceResponseModel);
+        LOG.debug("Elasticsearch returned document with id {}", id);
+        return ResponseEntity.ok(responseModelV3);
+    }
+
+
+//API changes done on the method level for simplicity
     @GetMapping("/v1")
     public @ResponseBody // @ResponseBody --- used to serialize java response object to json
     ResponseEntity<List<ElasticQueryServiceResponseModel>> getAllDocuments() {
@@ -72,6 +85,17 @@ public class ElasticDocumentController {
                 .build();
         responseModelV2.add(responseModel.getLinks());
         return responseModelV2;
+    }
+
+    private ElasticQueryServiceResponseModelV3 getV3Model(ElasticQueryServiceResponseModel responseModel) {
+        ElasticQueryServiceResponseModelV3 responseModelV3 = ElasticQueryServiceResponseModelV3.builder()
+                .id(Long.parseLong(responseModel.getId()))
+                .userId(responseModel.getUserId())
+                .text(responseModel.getText())
+                .text2("Version 3 text")
+                .build();
+        responseModelV3.add(responseModel.getLinks());
+        return responseModelV3;
     }
 
 }
