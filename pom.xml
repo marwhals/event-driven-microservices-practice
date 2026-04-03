@@ -27,6 +27,7 @@
         <module>kafka/kafka-consumer</module>
         <module>kafka-to-elastic-service</module>
         <module>elastic</module>
+        <module>elastic/elastic-query-client</module>
     </modules>
 
     <properties>
