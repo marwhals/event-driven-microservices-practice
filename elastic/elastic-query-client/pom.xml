@@ -15,6 +15,10 @@
     <dependencies>
         <dependency>
             <groupId>microservices.practice</groupId>
+            <artifactId>common-util</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>microservices.practice</groupId>
             <artifactId>app-config-data</artifactId>
         </dependency>
         <dependency>

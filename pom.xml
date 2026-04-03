@@ -28,6 +28,7 @@
         <module>kafka-to-elastic-service</module>
         <module>elastic</module>
         <module>elastic/elastic-query-client</module>
+        <module>common-util</module>
     </modules>
 
     <properties>
@@ -58,6 +59,11 @@
         <dependencies>
             <!-- Spring Cloud BOM to resolve all Spring Cloud versions -->
 <!-- LOCAL -->
+            <dependency>
+                <groupId>microservices.practice</groupId>
+                <artifactId>common-util</artifactId>
+                <version>${project.version}</version>
+            </dependency>
             <dependency>
                 <groupId>microservices.practice</groupId>
                 <artifactId>elastic-model</artifactId>
