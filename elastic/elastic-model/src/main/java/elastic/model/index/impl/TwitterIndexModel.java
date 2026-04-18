@@ -29,10 +29,9 @@ public class TwitterIndexModel implements IndexModel {
     @JsonProperty
     private LocalDateTime createdAt;
 
-    // Handled by Lombok
-//    @Override
-//    public String getId() {
-//        return id;
-//    }
+    @Override
+    public String getId() {
+        return id;
+    }
 
 }

@@ -31,6 +31,8 @@
         <module>common-util</module>
         <module>elastic-query-service</module>
         <module>elastic-query-web-client</module>
+        <module>elastic-service-query-common</module>
+        <module>elastic-query-web-client-common</module>
     </modules>
 
     <properties>
@@ -68,7 +70,17 @@
                 <scope>import</scope>
             </dependency>
             <!-- Spring Cloud BOM to resolve all Spring Cloud versions -->
-<!-- LOCAL -->
+            <!-- LOCAL -->
+            <dependency>
+                <groupId>microservices.practice</groupId>
+                <artifactId>elastic-query-web-client-common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>microservices.practice</groupId>
+                <artifactId>elastic-query-service-common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
             <dependency>
                 <groupId>microservices.practice</groupId>
                 <artifactId>common-util</artifactId>

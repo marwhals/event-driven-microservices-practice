@@ -5,7 +5,6 @@ import microservices.practice.elastic.query.service.ElasticQueryClient;
 import microservices.practice.elastic.query.service.business.ElasticQueryService;
 import microservices.practice.elastic.query.service.model.ElasticQueryServiceResponseModel;
 import microservices.practice.elastic.query.service.model.assembler.ElasticQueryServiceResponseModelAssembler;
-import microservices.practice.elastic.query.service.transformer.ElasticToResponseModelTransformer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,7 +23,6 @@ public class TwitterElasticQueryService implements ElasticQueryService {
         this.elasticQueryServiceResponseModelAssembler = assembler;
         this.elasticQueryClient = elasticQueryClient;
     }
-
 
     @Override
     public ElasticQueryServiceResponseModel getDocumentById(String id) {
