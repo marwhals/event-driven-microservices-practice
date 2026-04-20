@@ -33,6 +33,7 @@
         <module>elastic-query-web-client</module>
         <module>elastic-service-query-common</module>
         <module>elastic-query-web-client-common</module>
+        <module>reactive-elastic-query-service</module>
     </modules>
 
     <properties>
@@ -78,7 +79,7 @@
             </dependency>
             <dependency>
                 <groupId>microservices.practice</groupId>
-                <artifactId>elastic-query-service-common</artifactId>
+                <artifactId>elastic-service-query-common</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

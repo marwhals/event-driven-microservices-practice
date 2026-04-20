@@ -9,5 +9,6 @@ import org.springframework.context.annotation.Configuration;
 @ConfigurationProperties(prefix = "elastic-query-config")
 public class ElasticQueryServiceConfigData {
     private String textField;
+    private Long backPressureDelayMs;
 
 }
