@@ -34,6 +34,7 @@
         <module>elastic-service-query-common</module>
         <module>elastic-query-web-client-common</module>
         <module>reactive-elastic-query-service</module>
+        <module>reactive-elastic-query-web-client</module>
     </modules>
 
     <properties>
