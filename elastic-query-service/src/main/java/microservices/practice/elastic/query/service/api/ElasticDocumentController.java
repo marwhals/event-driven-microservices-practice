@@ -14,6 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -21,6 +22,7 @@ import javax.validation.constraints.NotEmpty;
 import java.util.ArrayList;
 import java.util.List;
 
+@PreAuthorize("isAuthenticated{}")
 @RestController // @RestController = @Controller + @ResponseBody
 @RequestMapping(value = "/documents", produces = "application/vnd.api.v1+json") // Can be used to set mapping path, http method, params, header etc
 //@RequestMapping(value = "/documents") // Can be used to set mapping path, http method, params, header etc
@@ -58,7 +60,7 @@ public class ElasticDocumentController {
 
 
 //API changes done on the method level for simplicity --- removed
-
+    @PreAuthorize("hasRole('APP_USER_ROLE') || hasAuthority('SCOPE_APP_USER_ROLE')")
     @Operation(summary = "Get all elastic documents.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successful response.", content = {
