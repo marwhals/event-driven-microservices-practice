@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 @Builder
 @Getter
@@ -16,7 +17,9 @@ public class TwitterQueryUser implements UserDetails {
 
     private Collection<? extends GrantedAuthority> authorities;
 
-    public void setAuthorities(Collection<? extends GrantedAuthority>) {
+    private Map<String, PermissionType> permissions;
+
+    public void setAuthorities(Collection<? extends GrantedAuthority> authorities) {
         this.authorities = authorities;
     }
 
