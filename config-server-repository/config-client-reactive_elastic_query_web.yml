@@ -1,3 +1,8 @@
+server:
+  port: 8184
+  servlet:
+    context-path: /elastic-query-web-client
+
 elastic-query-web-client:
   webclient:
     connect-timeout-ms: 10000
@@ -12,10 +17,20 @@ elastic-query-web-client:
     uri: "/get-doc-by-text"
     accept: ${elastic-query-web-client.webclient.accept-type}
 
-server:
-  port: 8184
-
 spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          keycloak:
+            client-id: 'elastic-query-web-client'
+            client-secret: 'KEYCLOAK secret'
+            authorization-grant-type: authorization_code
+            redirect-uri: '{base}/login/oauth2/code/{registrationId}'
+            scope: openid
+        provider:
+          keycloak:
+            issuerUri: http://localhost:8081/auth/realms/microservices-realm
   webflux:
     base-path: /reactive-elastic-query-web-client
   thymeleaf:
@@ -24,3 +39,12 @@ spring:
       max-chunk-size: 8192
   codec:
     max-in-memory-size: 25MB
+
+security:
+  logout-success-url: http://localhost:8081/auth/realms/microservices-realm
+  default-client-registration-id: keycloak
+
+user-config:
+  username: test
+  password: '{cipher}etc'
+  roles: USER
