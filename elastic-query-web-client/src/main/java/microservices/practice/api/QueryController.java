@@ -3,6 +3,7 @@ package microservices.practice.api;
 import microservices.practice.model.ElasticQueryWebClientRequestModel;
 import microservices.practice.model.ElasticQueryWebClientResponseModel;
 import microservices.practice.service.ElasticQueryWebClient;
+import model.ElasticQueryWebClientAnalyticsResponseModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -26,14 +27,10 @@ public class QueryController {
     }
 
     @GetMapping("")
-    public String index() {
-        return "index";
-    }
+    public String index() {return "index";}
 
     @GetMapping("/error")
-    public String error() {
-        return "error";
-    }
+    public String error() {return "error";}
 
     @GetMapping("/home")
     public String home(Model model) {
@@ -46,8 +43,10 @@ public class QueryController {
     public String queryByText(@Valid ElasticQueryWebClientRequestModel requestModel,
                               Model model) {
         LOG.info("Querying with text {}", requestModel.getText());
-        List<ElasticQueryWebClientResponseModel> responseModels = elasticQueryWebClient.getDataByText(requestModel);
-        model.addAttribute("elasticQueryWebClientResponseModels", responseModels);
+        ElasticQueryWebClientAnalyticsResponseModel responseModel = elasticQueryWebClient.getDataByText(requestModel);
+        model.addAttribute("elasticQueryWebClientResponseModels",
+                responseModel.getQueryResponseModels());
+        model.addAttribute("wordCount", responseModel.getWordCount());
         model.addAttribute("searchText", requestModel.getText());
         model.addAttribute("elasticQueryWebClientRequestModel",
                 ElasticQueryWebClientRequestModel.builder().build());

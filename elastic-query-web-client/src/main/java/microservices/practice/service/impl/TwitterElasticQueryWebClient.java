@@ -5,6 +5,7 @@ import microservices.practice.exception.ElasticQueryWebClientException;
 import microservices.practice.model.ElasticQueryWebClientRequestModel;
 import microservices.practice.model.ElasticQueryWebClientResponseModel;
 import microservices.practice.service.ElasticQueryWebClient;
+import model.ElasticQueryWebClientAnalyticsResponseModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -36,11 +37,10 @@ public class TwitterElasticQueryWebClient implements ElasticQueryWebClient {
     }
 
     @Override
-    public List<ElasticQueryWebClientResponseModel> getDataByText(ElasticQueryWebClientRequestModel requestModel) {
+    public ElasticQueryWebClientAnalyticsResponseModel getDataByText(ElasticQueryWebClientRequestModel requestModel) {
         LOG.info("Querying by text {}", requestModel.getText());
         return getWebClient(requestModel)
-                .bodyToFlux(ElasticQueryWebClientResponseModel.class)
-                .collectList()
+                .bodyToMono(ElasticQueryWebClientAnalyticsResponseModel.class)
                 .block();
     }
 
