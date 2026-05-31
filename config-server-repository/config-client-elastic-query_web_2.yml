@@ -14,20 +14,16 @@ elastic-query-web-client:
     base-url: 'http://localhost:8183/elastic-query-service/documents'
     service-id: elastic-query-service
     instances:
-      -
-        id: elastic-query-service-1d
-        host: localhost
-        port: 8183
-      -
-        id: elastic-query-service-2
-        host: localhost
-        port: 8185
   query-by-text:
     method: POST
     uri: "/get-document-by-text"
     accept: ${elastic-query-web-client.webclient.accept-type}
 
 spring:
+  cloud:
+    loadbalancer:
+      ribbon:
+        enabled: false
   thymeleaf:
     cache: false
   security:
