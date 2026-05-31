@@ -122,7 +122,7 @@ services:
     image: ${GROUP_ID}/kafka.streams.service:${SERVICE_VERSION:-latest}
     ports:
       - "5012:5012"
-      - "8187:8187"
+      - "8188:8188"
     volumes:
       - "./docker-logs:/workspace/kafka-streams-service/logs"
       - "./check-config-server-started.sh:/usr/local/bin/check-config-server-started.sh"
