@@ -1,7 +1,7 @@
 server:
   port: 8188
   servlet:
-    context-path: /analytics-service
+    context-path: /
 
 analytics-service:
   version: v2
@@ -16,8 +16,8 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://localhost:9091/auth/realms/myrealm
-          jwk-set-uri: http://localhost:9091/auth/realms/myrealm/protocol/openid-connect/certs
+          issuer-uri: http://localhost:9091/auth/realms/microservices-realm
+          jwk-set-uri: http://localhost:9091/auth/realms/microservices-realm/protocol/openid-connect/certs
   jpa:
     open-in-view: false
     show-sql: true
@@ -37,6 +37,27 @@ spring:
     driver-class-name: org.postgresql.Driver
     platform: postgres
 
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+
+security:
+  paths-to-ignore: /api-docs, /actuator/**
+
+management:
+  endpoints:
+    web:
+      base-path: /actuator
+      exposure.include: health, prometheus
+      path-mapping.prometheus: metrics
+  endpoint:
+    health:
+      show-details: always
+    prometheus:
+      cache.time-to-live: 1ms
+
 kafka-config:
   bootstrap-servers: localhost:19092, localhost:29092, localhost:39092
   schema-registry-url-key: schema.registry.url
@@ -46,7 +67,7 @@ kafka-config:
     - twitter-analytics-topic
 
 kafka-consumer-config:
-  key-deserializer: org.apache.kafka.common.serialization.LongDeserializer
+  key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
   value-deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
   consumer-group-id: twitter-topic-consumer
   auto-offset-reset: earliest
@@ -69,3 +90,4 @@ retry-config:
   multiplier: 2.0
   maxAttempts: 3
   sleep-time-ms: 2000
+
