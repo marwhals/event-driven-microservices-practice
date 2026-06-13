@@ -40,6 +40,7 @@
         <module>analytics-service</module>
         <module>discovery-service</module>
         <module>gateway-service</module>
+        <module>mdc-interceptor</module>
     </modules>
 
     <properties>
@@ -61,6 +62,8 @@
         <kafka-streams-avro-serde.version>5.5.1</kafka-streams-avro-serde.version>
         <avro.version>1.10.0</avro.version>
         <spring-cloud-starter-circuitbreaker-reactor-resilience4j.version>1.0.4.RELEASE</spring-cloud-starter-circuitbreaker-reactor-resilience4j.version>
+        <micrometer-registry-prometheus.version>1.5.2</micrometer-registry-prometheus.version>
+        <logstash-logback-encoder.version>6.5</logstash-logback-encoder.version>
     </properties>
 
     <repositories>
@@ -81,6 +84,11 @@
             </dependency>
             <!-- Spring Cloud BOM to resolve all Spring Cloud versions -->
             <!-- LOCAL -->
+            <dependency>
+                <groupId>microservices.practice</groupId>
+                <artifactId>mdc-interceptor</artifactId>
+                <version>${project.version}</version>
+            </dependency>
             <dependency>
                 <groupId>microservices.practice</groupId>
                 <artifactId>elastic-query-web-client-common</artifactId>
@@ -296,6 +304,11 @@
                 <groupId>io.micrometer</groupId>
                 <artifactId>micrometer-registry-prometheus</artifactId>
                 <version>${micrometer-registry-prometheus.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.logstash.logback</groupId>
+                <artifactId>logstash-logback-encoder</artifactId>
+                <version>${logstash-logback-encoder.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

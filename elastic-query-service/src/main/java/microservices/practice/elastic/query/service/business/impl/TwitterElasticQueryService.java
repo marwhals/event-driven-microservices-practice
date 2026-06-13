@@ -11,8 +11,7 @@ import microservices.practice.elastic.query.service.model.assembler.ElasticQuery
 import microservices.practice.elastic.query.service.model.assembler.ElasticQueryServiceWordCountResponseModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.reactive.function.client.WebClient;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.slf4j.MDC;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -21,9 +20,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
-
 import java.util.List;
 
+import static microservices.practice.mdc.main.java.com.microservices.demo.mdc.Constants.CORRELATION_ID_HEADER;
+import static microservices.practice.mdc.main.java.com.microservices.demo.mdc.Constants.CORRELATION_ID_KEY;
+
+@Service
 public class TwitterElasticQueryService implements ElasticQueryService {
 
     private static final Logger LOG = LoggerFactory.getLogger(TwitterElasticQueryService.class);
@@ -83,7 +85,7 @@ public class TwitterElasticQueryService implements ElasticQueryService {
         return retrieveResponseModel(text, accessToken, queryFromAnalyticsDatabase);
     }
 
-    private ElasticQueryServiceAnalyticsResponseModel getFromKafkaStateStore(String text, String accessToken) {
+    private ElasticQueryServiceWordCountResponseModel getFromKafkaStateStore(String text, String accessToken) {
         ElasticQueryServiceConfigData.Query queryFromKafkaStateStore =
                 elasticQueryServiceConfigData.getQueryFromKafkaStateStore();
         return retrieveResponseModel(text, accessToken, queryFromKafkaStateStore);
@@ -96,7 +98,10 @@ public class TwitterElasticQueryService implements ElasticQueryService {
                 .build()
                 .method(HttpMethod.valueOf(query.getMethod()))
                 .uri(query.getUri(), uriBuilder -> uriBuilder.build(text))
-                .headers(h -> h.setBearerAuth(accessToken))
+                .headers(h -> {
+                    h.setBearerAuth(accessToken);
+                    h.set(CORRELATION_ID_HEADER, MDC.get(CORRELATION_ID_KEY));
+                })
                 .accept(MediaType.valueOf(query.getAccept()))
                 .retrieve()
                 .onStatus(

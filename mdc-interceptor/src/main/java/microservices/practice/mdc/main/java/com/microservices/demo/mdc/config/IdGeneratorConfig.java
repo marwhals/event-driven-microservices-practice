@@ -1,4 +1,4 @@
-package microservices.practice.common.config;
+package microservices.practice.mdc.main.java.com.microservices.demo.mdc.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,6 +12,4 @@ public class IdGeneratorConfig {
     public IdGenerator idGenerator() {
         return new JdkIdGenerator();
     }
-
-
 }
